@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { formatDateToCustom } from '../../utils';
 import { Post } from './entity/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
+import { SearchPostDto } from './dto/search-post.dto';
 
 @Injectable()
 export class PostService {
@@ -15,6 +16,15 @@ export class PostService {
     //전체 조회
     async findAll(): Promise<Post[]> {
         return this.postRepository.find();
+    }
+
+    async search(searchPostDto: SearchPostDto): Promise<Post[]> {
+        const queryBuilder = this.postRepository.createQueryBuilder('post');
+
+        if(searchMapDto.title) {
+            queryBuilder.andWhere('post.title LIKE :title', { title: `%${searchPostDto.title}%` });
+        }
+        return queryBuilder.getMany();
     }
 
     async create(createPostDto: CreatePostDto): Promise<number> {

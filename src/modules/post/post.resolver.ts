@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { Post } from './entity/post.entity';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
+import { SearchPostDto } from './dto/search-post.dto';
 
 @Resolver(() => Post)
 export class PostResolver {
@@ -10,6 +11,15 @@ export class PostResolver {
     @Query(() => [Post], { name: 'posts' })
     getPosts(): Promise<Post[]> {
         return this.postService.findAll();
+    }
+
+    @Query(() => [Post], { name: 'search' })
+    getSearch(
+        @Args('title', { type: () => String }) title: string,
+    ): Promise<Post[]> {
+        const searchPostDto = new SearchPostDto();
+        searchPostDto.title = title;
+        return this.postService.search(searchPostDto);
     }
 
     @Mutation(() => Int, { name: 'create' })
