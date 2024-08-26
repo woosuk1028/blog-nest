@@ -34,6 +34,6 @@ export class PostResolver {
         createPostDto.category = category;
         createPostDto.contents = contents;
         createPostDto.tag = tag;
-        this.postService.create(createPostDto);
+        return this.postService.create(createPostDto);
     }
 }

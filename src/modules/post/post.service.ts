@@ -21,14 +21,14 @@ export class PostService {
     async search(searchPostDto: SearchPostDto): Promise<Post[]> {
         const queryBuilder = this.postRepository.createQueryBuilder('post');
 
-        if(searchMapDto.title) {
+        if(searchPostDto.title) {
             queryBuilder.andWhere('post.title LIKE :title', { title: `%${searchPostDto.title}%` });
         }
         return queryBuilder.getMany();
     }
 
     async create(createPostDto: CreatePostDto): Promise<number> {
-        const { title, category, contents, tag } = CreatePostDto;
+        const { title, category, contents, tag } = createPostDto;
         const create_date = formatDateToCustom(new Date);
 
         try
