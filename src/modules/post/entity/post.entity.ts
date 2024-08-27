@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeor
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
-@Entity('ls_map')
+@Entity('bg_post_list')
 export class Post {
     @Field(() => Int)
     @PrimaryGeneratedColumn()

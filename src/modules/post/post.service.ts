@@ -10,7 +10,7 @@ import { SearchPostDto } from './dto/search-post.dto';
 export class PostService {
     constructor(
         @InjectRepository(Post)
-        private postRepository: Repository<Post>,
+        private readonly postRepository: Repository<Post>,
     ) {}
 
     //전체 조회
@@ -40,6 +40,9 @@ export class PostService {
                 tag,
                 create_date
             });
+
+            const result = await this.postRepository.save(query);
+            return result.seq;
         }
         catch (error)
         {

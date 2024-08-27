@@ -6,7 +6,7 @@ import { SearchPostDto } from './dto/search-post.dto';
 
 @Resolver(() => Post)
 export class PostResolver {
-    constructor(private readonly postService: PostService) {}
+    constructor(private postService: PostService) {}
 
     @Query(() => [Post], { name: 'posts' })
     getPosts(): Promise<Post[]> {
@@ -34,6 +34,7 @@ export class PostResolver {
         createPostDto.category = category;
         createPostDto.contents = contents;
         createPostDto.tag = tag;
+        console.log("CREATE DTO ==> "+createPostDto);
         return this.postService.create(createPostDto);
     }
 }
