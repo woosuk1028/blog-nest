@@ -8,18 +8,18 @@ import { SearchPostDto } from './dto/search-post.dto';
 export class PostResolver {
     constructor(private postService: PostService) {}
 
-    @Query(() => [Post], { name: 'posts' })
+    @Query(() => [Post], { name: 'list' })
     getPosts(): Promise<Post[]> {
         return this.postService.findAll();
     }
 
-    @Query(() => [Post], { name: 'search' })
-    getSearch(
-        @Args('title', { type: () => String }) title: string,
-    ): Promise<Post[]> {
+    @Query(() => Post, { name: 'detail' })
+    getDetail(
+        @Args('seq', { type: () => Int }) seq: number,
+    ): Promise<Post> {
         const searchPostDto = new SearchPostDto();
-        searchPostDto.title = title;
-        return this.postService.search(searchPostDto);
+        searchPostDto.seq = seq;
+        return this.postService.detail(searchPostDto);
     }
 
     @Mutation(() => Int, { name: 'create' })

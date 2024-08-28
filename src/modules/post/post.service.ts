@@ -18,13 +18,13 @@ export class PostService {
         return this.postRepository.find();
     }
 
-    async search(searchPostDto: SearchPostDto): Promise<Post[]> {
+    async detail(searchPostDto: SearchPostDto): Promise<Post | null> {
         const queryBuilder = this.postRepository.createQueryBuilder('post');
 
-        if(searchPostDto.title) {
-            queryBuilder.andWhere('post.title LIKE :title', { title: `%${searchPostDto.title}%` });
+        if(searchPostDto.seq) {
+            queryBuilder.andWhere('post.seq = :seq', { seq: searchPostDto.seq });
         }
-        return queryBuilder.getMany();
+        return queryBuilder.getOne();
     }
 
     async create(createPostDto: CreatePostDto): Promise<number> {
