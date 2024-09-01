@@ -18,6 +18,13 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type UploadedFileResponse {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
+}
+
 type Query {
   list: [Post!]!
   detail(seq: Int!): Post!
@@ -25,4 +32,8 @@ type Query {
 
 type Mutation {
   create(title: String!, category: String!, contents: String!, tag: String!): Int!
+  uploadFile(file: Upload!): UploadedFileResponse!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
