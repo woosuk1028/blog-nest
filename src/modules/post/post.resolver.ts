@@ -8,7 +8,6 @@ import { createWriteStream } from 'fs';
 import { join } from 'path';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @Resolver(() => Post)
 export class PostResolver {
@@ -44,29 +43,4 @@ export class PostResolver {
         return this.postService.create(createPostDto);
     }
 
-    @Mutation(() => UploadedFileResponse)
-    @UseInterceptors(FileInterceptor('file'))
-    async uploadFile(
-        @Args({ name: 'file', type: () => GraphQLUpload }) file: FileUpload,
-    ): Promise<UploadedFileResponse> {
-        const { createReadStream, filename, mimetype, encoding } = await file;
-
-        const uploadDir = join(__dirname, '..', 'uploads'); // 파일이 저장될 디렉토리
-
-        return new Promise((resolve, reject) => {
-            const writeStream = createWriteStream(join(uploadDir, filename));
-
-            createReadStream()
-                .pipe(writeStream)
-                .on('finish', () =>
-                    resolve({
-                        filename,
-                        mimetype,
-                        encoding,
-                        url: `https://seok2.duckdns.org/uploads/${filename}`, // 업로드된 파일 URL 반환
-                    }),
-                )
-                .on('error', reject);
-        });
-    }
 }
