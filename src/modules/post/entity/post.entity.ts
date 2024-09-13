@@ -24,6 +24,10 @@ export class Post {
     @Column()
     tag: string;
 
+    @Field(() => String, { nullable: true })
+    @Column({ nullable: true })
+    description: string;
+
     @Field(() => Int, { nullable: true })
     @Column({ nullable: true })
     views: number | null;

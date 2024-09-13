@@ -8,6 +8,7 @@ type Post {
   category: String!
   contents: String!
   tag: String!
+  description: String
   views: Int
   create_date: DateTime!
   update_date: DateTime

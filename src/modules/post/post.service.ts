@@ -15,14 +15,19 @@ export class PostService {
 
     //전체 조회
     async findAll(): Promise<Post[]> {
-        return this.postRepository.find();
+        return this.postRepository.find({
+            order: {
+                seq: 'DESC',
+            },
+        });
     }
 
     async detail(searchPostDto: SearchPostDto): Promise<Post | null> {
         const queryBuilder = this.postRepository.createQueryBuilder('post');
 
         if(searchPostDto.seq) {
-            queryBuilder.andWhere('post.seq = :seq', { seq: searchPostDto.seq });
+            queryBuilder
+                .andWhere('post.seq = :seq', { seq: searchPostDto.seq });
         }
         return queryBuilder.getOne();
     }
