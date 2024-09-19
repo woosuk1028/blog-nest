@@ -33,7 +33,7 @@ export class PostService {
     }
 
     async create(createPostDto: CreatePostDto): Promise<number> {
-        const { title, category, contents, tag } = createPostDto;
+        const { title, category, contents, tag, description } = createPostDto;
         const create_date = formatDateToCustom(new Date);
 
         try
@@ -43,6 +43,7 @@ export class PostService {
                 category,
                 contents,
                 tag,
+                description,
                 create_date
             });
 

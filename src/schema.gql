@@ -25,5 +25,5 @@ type Query {
 }
 
 type Mutation {
-  create(title: String!, category: String!, contents: String!, tag: String!): Int!
+  create(title: String!, category: String!, contents: String!, tag: String!, description: String!): Int!
 }

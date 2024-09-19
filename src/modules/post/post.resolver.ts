@@ -33,12 +33,14 @@ export class PostResolver {
         @Args('category', { type: () => String }) category: string,
         @Args('contents', { type: () => String }) contents: string,
         @Args('tag', { type: () => String }) tag: string,
+        @Args('description', { type: () => String }) description: string,
     ): Promise<number> {
         const createPostDto = new CreatePostDto();
         createPostDto.title = title;
         createPostDto.category = category;
         createPostDto.contents = contents;
         createPostDto.tag = tag;
+        createPostDto.description = description;
         console.log("CREATE DTO ==> "+createPostDto);
         return this.postService.create(createPostDto);
     }
