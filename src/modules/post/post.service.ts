@@ -26,6 +26,16 @@ export class PostService {
         const queryBuilder = this.postRepository.createQueryBuilder('post');
 
         if(searchPostDto.seq) {
+            //조회수 증가
+            await this.postRepository
+                .createQueryBuilder()
+                .update()
+                .set({
+                    views: () => 'views + 1'
+                })
+                .where('seq = :seq', { seq: searchPostDto.seq })
+                .execute();
+
             queryBuilder
                 .andWhere('post.seq = :seq', { seq: searchPostDto.seq });
         }
