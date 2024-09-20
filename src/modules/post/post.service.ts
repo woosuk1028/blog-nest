@@ -23,23 +23,35 @@ export class PostService {
     }
 
     async detail(searchPostDto: SearchPostDto): Promise<Post | null> {
-        const queryBuilder = this.postRepository.createQueryBuilder('post');
+        const queryRunner = this.postRepository.manager.connection.createQueryRunner();
+        await queryRunner.startTransaction();
 
-        if(searchPostDto.seq) {
-            //조회수 증가
-            await this.postRepository
-                .createQueryBuilder()
-                .update()
-                .set({
-                    views: () => 'views + 1'
-                })
-                .where('seq = :seq', { seq: searchPostDto.seq })
-                .execute();
+        try {
+            if(searchPostDto.seq) {
+                //조회수 증가
+                await queryRunner.manager
+                    .createQueryBuilder()
+                    .update(Post)
+                    .set({
+                        views: () => 'views + 1'
+                    })
+                    .where('seq = :seq', { seq: searchPostDto.seq })
+                    .execute();
+            }
 
-            queryBuilder
-                .andWhere('post.seq = :seq', { seq: searchPostDto.seq });
+            const post = await queryRunner.manager
+                .createQueryBuilder(Post, 'post')
+                .where('post.seq = :seq', { seq: searchPostDto.seq })
+                .getOne();
+
+            await queryRunner.commitTransaction();
+            return post;
+        } catch (err) {
+            await queryRunner.rollbackTransaction();
+            throw err;
+        } finally {
+            await queryRunner.release();
         }
-        return queryBuilder.getOne();
     }
 
     async create(createPostDto: CreatePostDto): Promise<number> {

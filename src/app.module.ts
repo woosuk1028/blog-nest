@@ -23,6 +23,7 @@ import { join } from 'path';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
         autoLoadEntities: true,
+        logging: true,
       }),
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
