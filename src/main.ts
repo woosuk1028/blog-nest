@@ -11,7 +11,7 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
   app.enableCors({
-    origin: 'https://seok2.duckdns.org', // 허용할 도메인
+    origin: 'https://seok2.o-r.kr', // 허용할 도메인
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204
