@@ -78,4 +78,32 @@ export class PostService {
             return 0;
         }
     }
+
+    async update(updatePostDto: UpdatePostDto): Promise<number> {
+        const { seq, title, category, contents, tag, description } = updatePostDto;
+        const update_date = formatDateToCustom(new Date());
+
+        try
+        {
+            const result = await this.postRepository.update(seq, {
+                title,
+                category,
+                contents,
+                tag,
+                description,
+                update_date
+            });
+
+            if (result.affected) {
+                return seq;
+            } else {
+                return 0;
+            }
+        }
+        catch (error)
+        {
+            console.error("map create 저장 중 에러 발생: "+error);
+            return 0;
+        }
+    }
 }
