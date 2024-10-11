@@ -1,4 +1,4 @@
-import { IsString, IsOptional  } from 'class-validator';
+import { IsString, IsNumber, IsOptional  } from 'class-validator';
 
 export class UpdatePostDto {
     @IsNumber({}, { message: 'seq must be a number (float or integer).' })

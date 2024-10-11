@@ -46,7 +46,7 @@ export class PostResolver {
         return this.postService.create(createPostDto);
     }
 
-    @Mutation(() => Post, { name: 'update' })
+    @Mutation(() => Int, { name: 'update' })
     getUpdate(
         @Args('seq', { type: () => Int }) seq: number,
         @Args('title', { type: () => String }) title: string,
@@ -63,7 +63,7 @@ export class PostResolver {
         updatePostDto.tag = tag;
         updatePostDto.description = description;
         console.log("UPDATE DTO ==> "+updatePostDto);
-        return this.postService.create(updatePostDto);
+        return this.postService.update(updatePostDto);
     }
 
 }
